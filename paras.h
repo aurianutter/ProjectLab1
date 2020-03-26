@@ -1,0 +1,1 @@
+parameter NONE = 0, R_B = 1, R_G = 2, B_G = 3, STOP = 4;
