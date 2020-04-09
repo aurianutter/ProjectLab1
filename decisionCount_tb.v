@@ -31,21 +31,26 @@ module decisionCount_tb(
     wire finalDone;
     reg blinky = 0;
     integer i = 0;
+    wire [4:0] lightOut;
     
     always #5 clk = ~clk;
-    //always #2500000 blinky = ~blinky; // 200 Hz
     initial begin
         for (i = 0; i < 200; i = i + 1)
             #2500000 blinky = ~blinky;
         for (i = 0; i < 1000; i = i + 1)
             #500000 blinky = ~blinky;
+        for (i = 0; i < 5000; i = i + 1)
+            #100000 blinky = ~blinky;
+        for (i = 0; i < 7000; i = i + 1)
+            #72000 blinky = ~blinky;
     end
     
     decisionCount uut (
         clk,
         finalAnswer,
         finalDone,
-        blinky
+        blinky,
+        lightOut
         );
     
 endmodule

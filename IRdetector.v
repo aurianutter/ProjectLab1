@@ -68,19 +68,23 @@ module IRdetector(
     always @ (posedge clk)
         begin
             if (done == 1)
-                if (clk_count > 490000 & clk_count < 510000) // 200 Hz
+                if (clk_count > 490000 & clk_count < 510000) // 200 Hz 500000
                     begin
                         decision <= R_B;
                     end
-                else if (clk_count > 90000 & clk_count < 110000) // 1000 Hz
+                else if (clk_count > 90000 & clk_count < 110000) // 1000 Hz 100000
                     begin
                         decision <= R_G;
                     end
-                else if (clk_count > 19000 & clk_count < 21000) // 5000 Hz
+                else if (clk_count > 19000 & clk_count < 21000) // 5000 Hz 20000
                     begin
                         decision <= B_G;
                     end
-                else if (clk_count > 3000 & clk_count < 3500) // 30000 Hz
+//                else if (clk_count > 3000 & clk_count < 3500) // 30000 Hz 3333
+//                    begin
+//                        decision <= STOP;
+//                    end
+                else if (clk_count > 10000 & clk_count < 16000) // 7000 Hz 14000
                     begin
                         decision <= STOP;
                     end

@@ -24,7 +24,8 @@ module decisionCount(
     input clk,
     output reg [2:0] finalAnswer,
     output reg finalDone,
-    input blinky
+    input blinky,
+    output [4:0] lightOut
     );
     
     `include "paras.h"
@@ -33,13 +34,19 @@ module decisionCount(
     wire [19:0] clk_count;
     wire done;
     
-     IRdetector uut(
+     IRdetector uut1(
         blinky,
         clk_count,
         clk,
         done,
         decision
-
+        );
+        
+    OutputDecision uut2(
+        finalAnswer,
+        finalDone,
+        clk,
+        lightOut
         );
     
     reg [3:0] R_Bcount = 0;
@@ -114,5 +121,9 @@ module decisionCount(
                     finalAnswer <= NONE;
                 end
       end 
+    
+      
+
+    
     
 endmodule

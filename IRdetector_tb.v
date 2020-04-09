@@ -36,7 +36,7 @@ module IRdetector_tb(
     //always #2500000 blinky = ~blinky; // 200 Hz
     //always #500000 blinky = ~blinky; // 1000 Hz
     //always #100000 blinky = ~blinky; // 5000 Hz
-    always #16666 blinky = ~blinky; // 30000 Hz
+    always #72000 blinky = ~blinky; // 7000 Hz
     IRdetector uut(
         blinky,
         clk_count,
