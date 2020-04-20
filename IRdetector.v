@@ -29,20 +29,18 @@ module IRdetector(
 
     );
     
-    `include "paras.h"
-    
     reg SyncBlinky;
     reg OldBlinky;
     wire StartCount;
     reg [19:0] count = 0;
     
-    always @ (posedge clk)
+    always @ (posedge clk) //synchronize blinky
         begin 
             SyncBlinky <= blinky;
             OldBlinky <= SyncBlinky;
         end
         
-    assign StartCount = (~OldBlinky & SyncBlinky);
+    assign StartCount = (~OldBlinky & SyncBlinky); //rising edge
     
     initial begin
     clk_count = 0;
@@ -52,45 +50,41 @@ module IRdetector(
     
     always @ (posedge clk)
         begin
-            if (StartCount == 1)
+            if (StartCount == 1) //on rising edge, clk_count valid
                 begin
                     clk_count <= count;
                     count <= 0;
                     done <= 1;
                 end
-            if (StartCount == 0)
+            if (StartCount == 0)// on not rising edge, increment
                 begin
                     done <= 0;
                     count <= count + 1;
                 end    
         end
         
-    always @ (posedge clk)
+    always @ (posedge clk) //establish ranges for frequencies
         begin
             if (done == 1)
                 if (clk_count > 490000 & clk_count < 510000) // 200 Hz 500000
                     begin
-                        decision <= R_B;
+                        decision <= 1;
                     end
                 else if (clk_count > 90000 & clk_count < 110000) // 1000 Hz 100000
                     begin
-                        decision <= R_G;
+                        decision <= 2;
                     end
                 else if (clk_count > 19000 & clk_count < 21000) // 5000 Hz 20000
                     begin
-                        decision <= B_G;
+                        decision <= 3;
                     end
-//                else if (clk_count > 3000 & clk_count < 3500) // 30000 Hz 3333
-//                    begin
-//                        decision <= STOP;
-//                    end
                 else if (clk_count > 10000 & clk_count < 16000) // 7000 Hz 14000
                     begin
-                        decision <= STOP;
+                        decision <= 4;
                     end
                 else
                     begin
-                        decision <= NONE;
+                        decision <= 0;
                     end
         end
  

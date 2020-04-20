@@ -28,8 +28,6 @@ module decisionCount(
     output [4:0] lightOut
     );
     
-    `include "paras.h"
-    
     wire [2:0] decision;
     wire [19:0] clk_count;
     wire done;
@@ -54,37 +52,37 @@ module decisionCount(
     reg [3:0] B_Gcount = 0;
     reg [3:0] STOPcount = 0;
     
-    always @ (posedge clk)
+    always @ (posedge clk) // increment seen frequency and zero all others
         begin
-            if (done == 1 && decision == R_B)
+            if (done == 1 && decision == 1) // increment for 200 Hz
                 begin
                     R_Bcount <= R_Bcount + 1;
                     R_Gcount <= 0;
                     B_Gcount <= 0;
                     STOPcount <= 0;
                 end
-            else if (done == 1 && decision == R_G)
+            else if (done == 1 && decision == 2) // increment for 1000 Hz
                 begin
                     R_Bcount <= 0;
                     R_Gcount <= R_Gcount + 1;
                     B_Gcount <= 0;
                     STOPcount <= 0;
                 end
-            else if (done == 1 && decision == B_G)
+            else if (done == 1 && decision == 3) // increment for 5000 Hz
                 begin
                     R_Bcount <= 0;
                     R_Gcount <= 0;
                     B_Gcount <= B_Gcount + 1;
                     STOPcount <= 0;
                 end
-            else if (done == 1 && decision == STOP)
+            else if (done == 1 && decision == 4) // increment for 7000 Hz
                 begin
                     R_Bcount <= 0;
                     R_Gcount <= 0;
                     B_Gcount <= 0;
                     STOPcount <= STOPcount + 1;
                 end
-            else if (done == 1)
+            else if (done == 1) // zero all counts if no frequency
                 begin 
                     R_Bcount <= 0;
                     R_Gcount <= 0;
@@ -93,32 +91,32 @@ module decisionCount(
                 end
         end
     
-    always @ (posedge clk)
+    always @ (posedge clk) // set finalAnswer if seen long enough
         begin
             if (R_Bcount == 15)
                 begin
-                    finalAnswer <= R_B;
+                    finalAnswer <= 1;
                     finalDone <= 1;
                 end
             else if (R_Gcount == 15)
                 begin
-                    finalAnswer <= R_G;
+                    finalAnswer <= 2;
                     finalDone <= 1;
                 end
             else if (B_Gcount == 15)
                 begin
-                    finalAnswer <= B_G;
+                    finalAnswer <= 3;
                     finalDone <= 1;
                 end
             else if (STOPcount == 15)
                 begin
-                    finalAnswer <= STOP;
+                    finalAnswer <= 4;
                     finalDone <= 1;
                 end
             else
                 begin
                     finalDone <= 0;
-                    finalAnswer <= NONE;
+                    finalAnswer <= 0;
                 end
       end 
     

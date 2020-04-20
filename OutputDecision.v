@@ -26,8 +26,6 @@ module OutputDecision(
     input clk,
     output reg [4:0] lightOut
     );
-
-    `include "paras.h"
     
     initial begin
         lightOut = 0;
@@ -35,31 +33,31 @@ module OutputDecision(
     
     always @ (posedge clk)
         begin
-            if (finalDone == 1)
+            if (finalDone == 1) //if finalAnswer valid
                 begin
-                    if (finalAnswer == NONE)
+                    if (finalAnswer == 0)
                         begin
-                            lightOut <= 1;
+                            lightOut <= 15; //all lights on if not reading frequency
                         end
-                    else if (finalAnswer == R_B)
+                    else if (finalAnswer == 1)
                         begin
-                            lightOut <= 2;
+                            lightOut <= 1; //first light on for 200 Hz
                         end
-                    else if (finalAnswer == R_G)
+                    else if (finalAnswer == 2)
                         begin
-                            lightOut <= 4;
+                            lightOut <= 2; // second light on for 1000 Hz
                         end
-                    else if (finalAnswer == B_G)
+                    else if (finalAnswer == 3)
                         begin
-                            lightOut <= 8;
+                            lightOut <= 4; // third light on for 5000 Hz
                         end
-                    else if (finalAnswer == STOP)
+                    else if (finalAnswer == 4)
                         begin
-                            lightOut <= 16;
+                            lightOut <= 8; // fourth light on for 7000 Hz
                         end
                     else
                         begin
-                            lightOut <= 0;
+                            lightOut <= 0; // no light on if not frequency
                         end
                 end
         end
