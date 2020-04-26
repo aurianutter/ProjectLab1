@@ -23,13 +23,12 @@
 module top(
     input blinky,
     input clock,
-    output reg [3:0] IRlights
+    output [3:0] IRlights
     );
     
-//    wire [2:0] finalAnswer = 0;
-//    wire finalDone = 0;
-//    reg [2:0] IRfreq = 0;
-//    reg IRdone = 0;
+    wire [2:0] finalAnswer;
+    wire finalDone;
+
     
     decisionCount uut3(
     clock,
@@ -39,21 +38,22 @@ module top(
     lightOut
     );
     
-//    reg x = 0;
-//    wire y = 0;
+    assign IRlights = lightOut;
     
-    //iririr
-    always @ (posedge clock)
+    // in state, must be within always @ posedge clk
+    if (finalDone)
+        begin
+            if (finalAnswer ==1)
+                //stuff
+        end
+    
+    always @ (posedge clock) //located at beginning, delayed by one tick
     begin
-    
+        
+    //IRlights <= lightOut;
  //   IRfreq <= finalAnswer;
    // IRdone <= finalDone;
-  //  blinky <= IRsignal;
-    //IRlights <= lightOut;
-    
-    //x = y; //thing
-    
-    IRlights <= lightOut;
+
     
     end
     
