@@ -28,6 +28,7 @@ module top(
     
     wire [2:0] finalAnswer;
     wire finalDone;
+    wire [3:0] lightOut;
 
     
     decisionCount uut3(
@@ -40,21 +41,5 @@ module top(
     
     assign IRlights = lightOut;
     
-    // in state, must be within always @ posedge clk
-    if (finalDone)
-        begin
-            if (finalAnswer ==1)
-                //stuff
-        end
-    
-    always @ (posedge clock) //located at beginning, delayed by one tick
-    begin
-        
-    //IRlights <= lightOut;
- //   IRfreq <= finalAnswer;
-   // IRdone <= finalDone;
-
-    
-    end
     
 endmodule
