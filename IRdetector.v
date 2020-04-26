@@ -23,7 +23,7 @@
 module IRdetector(
     input blinky,
     output reg [19:0] clk_count,
-    input clk,
+    input clock,
     output reg done,
     output reg [2:0] decision
 
@@ -34,7 +34,7 @@ module IRdetector(
     wire StartCount;
     reg [19:0] count = 0;
     
-    always @ (posedge clk) //synchronize blinky
+    always @ (posedge clock) //synchronize blinky
         begin 
             SyncBlinky <= blinky;
             OldBlinky <= SyncBlinky;
@@ -48,7 +48,7 @@ module IRdetector(
     decision = 0;
     end
     
-    always @ (posedge clk)
+    always @ (posedge clock)
         begin
             if (StartCount == 1) //on rising edge, clk_count valid
                 begin
@@ -63,7 +63,7 @@ module IRdetector(
                 end    
         end
         
-    always @ (posedge clk) //establish ranges for frequencies
+    always @ (posedge clock) //establish ranges for frequencies
         begin
             if (done == 1)
                 if (clk_count > 490000 & clk_count < 510000) // 200 Hz 500000

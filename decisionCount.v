@@ -21,11 +21,11 @@
 
 
 module decisionCount(
-    input clk,
+    input clock,
     output reg [2:0] finalAnswer,
     output reg finalDone,
     input blinky,
-    output [4:0] lightOut
+    output [3:0] lightOut
     );
     
     wire [2:0] decision;
@@ -35,7 +35,7 @@ module decisionCount(
      IRdetector uut1(
         blinky,
         clk_count,
-        clk,
+        clock,
         done,
         decision
         );
@@ -43,7 +43,7 @@ module decisionCount(
     OutputDecision uut2(
         finalAnswer,
         finalDone,
-        clk,
+        clock,
         lightOut
         );
     
@@ -52,7 +52,7 @@ module decisionCount(
     reg [3:0] B_Gcount = 0;
     reg [3:0] STOPcount = 0;
     
-    always @ (posedge clk) // increment seen frequency and zero all others
+    always @ (posedge clock) // increment seen frequency and zero all others
         begin
             if (done == 1 && decision == 1) // increment for 200 Hz
                 begin
@@ -91,7 +91,7 @@ module decisionCount(
                 end
         end
     
-    always @ (posedge clk) // set finalAnswer if seen long enough
+    always @ (posedge clock) // set finalAnswer if seen long enough
         begin
             if (R_Bcount == 15)
                 begin
