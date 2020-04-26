@@ -23,15 +23,15 @@
 module OutputDecision(
     input [2:0] finalAnswer,
     input finalDone,
-    input clk,
-    output reg [4:0] lightOut
+    input clock,
+    output reg [3:0] lightOut
     );
     
     initial begin
         lightOut = 0;
     end
     
-    always @ (posedge clk)
+    always @ (posedge clock)
         begin
             if (finalDone == 1) //if finalAnswer valid
                 begin
